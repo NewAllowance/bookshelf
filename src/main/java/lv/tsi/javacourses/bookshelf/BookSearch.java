@@ -22,8 +22,13 @@ public class BookSearch {
     }
 
     public void doSearch() {
-        Query q = em.createQuery("SELECT b FROM Book b WHERE b.author = :name");
-        q.setParameter("name", bookSearchForm.getTerm());
+        Query q = em.createQuery("SELECT b FROM Book b WHERE " +
+                "UPPER(b.author) LIKE :term " +
+                "OR UPPER(b.isbn) LIKE :term " +
+                "OR UPPER(b.title) LIKE :term " +
+                "OR UPPER(b.description) LIKE :term");
+        String term = "%" + bookSearchForm.getTerm().toUpperCase() + "%";
+        q.setParameter("term", term);
         bookSearchForm.setSearchResult(q.getResultList());
     }
 
