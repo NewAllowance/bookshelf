@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title><ui:insert name="title">Bookshelf</ui:insert></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+</h:head>
+<h:body>
+    <nav class="w3-bar w3-black">
+        <h:link value="Home" outcome="/index.xhtml" styleClass="w3-bar-item w3-button"/>
+        <h:link value="Sign in" outcome="/index.xhtml" styleClass="w3-bar-item w3-button w3-right"
+                rendered="#{not currentUser.signedIn}"/>
+        <h:link value="#{currentUser.user.name}" outcome="/index.xhtml" styleClass="w3-bar-item w3-button w3-right"
+                rendered="#{currentUser.signedIn}"/>
+    </nav>
+    <ui:insert name="content"/>
+</h:body>
+</html>

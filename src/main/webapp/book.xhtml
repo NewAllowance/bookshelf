@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="template.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value="#{bookDetailsForm.bookId}"/>
+        <f:viewAction action="#{bookDetailsForm.findBook()}"/>
+    </f:metadata>
+    <ui:define name="title"><h:outputText value="#{bookDetailsForm.book.title}"/> - Bookshelf</ui:define>
+    <ui:define name="content">
+        <img src="http://via.placeholder.com/250x250"/>
+        <p>Title: <h:outputText value="#{bookDetailsForm.book.title}"/></p>
+        <p>Author: <h:outputText value="#{bookDetailsForm.book.author}"/></p>
+        <p>Year: <h:outputText value="#{bookDetailsForm.book.year}"/></p>
+        <p>Description: <h:outputText value="#{bookDetailsForm.book.description}"/></p>
+        <p>ISBN: <h:outputText value="#{bookDetailsForm.book.isbn}"/></p>
+    </ui:define>
+</ui:composition>
+</html>
