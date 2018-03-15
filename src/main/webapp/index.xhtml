@@ -3,27 +3,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
-<h:head>
-    <title>Bookshelf</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-</h:head>
-<h:body>
-    <f:view>
-        <nav class="w3-bar w3-black">
-            <h:link value="Home"  outcome="/index.xhtml" styleClass="w3-bar-item w3-button"/>
-            <h:link value="Sign in"  outcome="/index.xhtml" styleClass="w3-bar-item w3-button w3-right"/>
-        </nav>
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="content">
         <h:form>
             <div class="w3-row w3-margin-bottom w3-margin-top">
                 <div class="w3-right w3-col w3-container" style="width: 175px">
-                    <h:commandButton value="Search" action="#{bookSearchForm.doSearch()}" style="width: 100%" styleClass="w3-btn w3-green">
+                    <h:commandButton value="Search" action="#{bookSearchForm.doSearch()}" style="width: 100%"
+                                     styleClass="w3-btn w3-green">
                         <f:ajax render="list" execute="term"/>
                     </h:commandButton>
                 </div>
                 <div class="w3-rest w3-container">
-                    <h:inputText id="term" value="#{bookSearchForm.term}" style="width: 100%" styleClass="w3-input w3-border"/>
+                    <h:inputText id="term" value="#{bookSearchForm.term}" style="width: 100%"
+                                 styleClass="w3-input w3-border"/>
                 </div>
             </div>
             <h:panelGroup id="list" styleClass="w3-row">
@@ -33,7 +27,11 @@
                             <img src="http://via.placeholder.com/250x250" style="width: 100%"/>
                             <div class="w3-container">
                                 <h4 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">
-                                    <b><h:outputText value="#{book.title}"/></b>
+                                    <b>
+                                        <h:link value="#{book.title}" outcome="/book.xhtml">
+                                            <f:param name="id" value="#{book.id}"/>
+                                        </h:link>
+                                    </b>
                                 </h4>
                                 <p style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">
                                     <h:outputText value="#{book.description}"/>
@@ -44,6 +42,6 @@
                 </ui:repeat>
             </h:panelGroup>
         </h:form>
-    </f:view>
-</h:body>
+    </ui:define>
+</ui:composition>
 </html>
