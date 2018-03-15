@@ -1,4 +1,4 @@
-package lv.tsi.javacourses.bookshelf;
+package lv.tsi.javacourses.bookshelf.entities;
 
 import javax.persistence.*;
 
