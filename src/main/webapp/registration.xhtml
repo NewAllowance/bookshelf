@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="content">
+        <div class="w3-content">
+            <h:form styleClass="w3-container w3-margin-top">
+
+                <h:messages/>
+
+                <label>Full Name</label>
+                <h:inputText id="fullName" styleClass="w3-input w3-border" value="#{userRegistrationForm.fullName}" validatorMessage="Full Name should be from 5 to 50 character long">
+                    <f:validateLength minimum="5" maximum="50"/>
+                </h:inputText>
+
+                <label>E-mail</label>
+                <h:inputText styleClass="w3-input w3-border" value="#{userRegistrationForm.email}" validatorMessage="E-mail isn't valid">
+                    <f:validateRegex pattern="#{userRegistrationForm.emailRegex}"/>
+                </h:inputText>
+
+                <label>Password</label>
+                <h:inputSecret styleClass="w3-input w3-border" value="#{userRegistrationForm.password1}" validatorMessage="Password's length should be 5 characters minimum">
+                    <f:validateLength minimum="5"/>
+                </h:inputSecret>
+
+                <label>Repeat password</label>
+                <h:inputSecret styleClass="w3-input w3-border" value="#{userRegistrationForm.password2}"/>
+
+                <p>
+                    <h:commandButton value="Register" styleClass="w3-btn w3-green"
+                                     action="#{userRegistrationForm.register}">
+                        <f:ajax render="@form" execute="@form"/>
+                    </h:commandButton>
+                </p>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
