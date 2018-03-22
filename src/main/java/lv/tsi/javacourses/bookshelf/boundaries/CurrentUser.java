@@ -16,10 +16,12 @@ public class CurrentUser implements Serializable {
     private EntityManager em;
     private Long userId;
     private User signedInUser;
+    private String email;
+    private String password;
 
     @Transactional
     public void signIn() {
-        userId = 1L;
+        userId = -1L;
         signedInUser = em.find(User.class, userId);
     }
 
