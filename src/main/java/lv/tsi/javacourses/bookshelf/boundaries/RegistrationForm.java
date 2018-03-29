@@ -8,14 +8,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @RequestScoped
 @Named
 public class RegistrationForm {
     private final static String EMAIL_REGEX = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-
+    private static Lock lock = new ReentrantLock();
     @PersistenceContext
     private EntityManager em;
 
@@ -32,6 +35,16 @@ public class RegistrationForm {
                             new FacesMessage("Passwords should be the same"));
             return null;
         }
+
+        Query query = em.createQuery("select u from User u where u.email = :email");
+        query.setParameter("email", email);
+        if (query.getResultList().size() > 0) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null,
+                            new FacesMessage("User with this email already registered"));
+            return null;
+        }
+
         User user = new User();
         user.setEmail(email);
         user.setPassword(password1);
