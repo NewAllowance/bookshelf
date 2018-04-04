@@ -61,7 +61,7 @@ public class RegistrationForm implements Serializable {
         User u = userControl.findUserByEmail(email, false);
         if (u != null && Objects.equals(u.getConfirmationCode(), confirmationCode)) {
             u.setConfirmed(true);
-            return "/sign-in.xhtml?faces-redirect=true";
+            return "/login.xhtml?faces-redirect=true";
         } else {
             Util.addError("registration:confirmationCode", "Incorrect confirmation code");
             return null;
@@ -101,5 +101,17 @@ public class RegistrationForm implements Serializable {
 
     public void setPassword2(String password2) {
         this.password2 = password2;
+    }
+
+    public boolean isAwaitConfirmation() {
+        return awaitConfirmation;
+    }
+
+    public String getConfirmationCode() {
+        return confirmationCode;
+    }
+
+    public void setConfirmationCode(String confirmationCode) {
+        this.confirmationCode = confirmationCode;
     }
 }
