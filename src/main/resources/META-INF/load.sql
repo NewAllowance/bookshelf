@@ -5,5 +5,12 @@ INSERT INTO BOOK (ID, AUTHOR, DESCRIPTION, ISBN, TITLE, YEAR) VALUES (-4, 'Imran
 INSERT INTO BOOK (ID, AUTHOR, DESCRIPTION, ISBN, TITLE, YEAR) VALUES (-5, 'Serafin Archuleta Arroyo', 'Morbi nec lorem sit amet eros vehicula suscipit ac sed dui.', '99-9230-262-3', 'El Castillo Modelo', 2010);
 INSERT INTO BOOK (ID, AUTHOR, DESCRIPTION, ISBN, TITLE, YEAR) VALUES (-6, 'Imran Kuilboer', 'Proin lobortis, eros id luctus pretium, ex ipsum tempus dui, quis fringilla nisi augue in lorem. Nunc augue magna, euismod eget magna non, aliquet dictum erat.', '95-8897-650-2', 'La Mora Ingeniero', 1999);
 
-INSERT INTO USER (ID, FULL_NAME, EMAIL, PASSWORD) VALUES (-1, 'John Smith', 'john.smith@fake.com', '12345');
-INSERT INTO USER (ID, FULL_NAME, EMAIL, PASSWORD) VALUES (-2, 'Mike Johnson', 'mike@company.com', '54321');
+INSERT INTO USERS (ID, FULL_NAME, EMAIL, PASSWORD, CONFIRMED) VALUES (-1, 'admin', 'admin', STRINGDECODE('x61Ey612Kl2gpFL56FT9weDnpSo4AV8j8+qx2AuTHdRyY036xxzTTrw10Wq3+4qQyB+XURPWx1ON\nxp3Y3pB37A=='), true);
+INSERT INTO ROLES (ID, NAME, DESCRIPTION) VALUES (-1, 'admin', 'admin');
+INSERT INTO ROLES (ID, NAME, DESCRIPTION) VALUES (-2, 'user', 'user');
+INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (-1, -1);
+INSERT INTO USERS_ROLES (USER_ID, ROLE_ID) VALUES (-1, -2);
+
+
+
+

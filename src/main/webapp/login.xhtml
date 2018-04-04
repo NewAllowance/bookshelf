@@ -15,21 +15,18 @@
                 <label>E-mail</label>
                 <h:inputText id="email" styleClass="w3-input w3-border"
                              value="#{loginForm.email}"
-                             validatorMessage="It isn't valid email">
-                    <f:validateRegex pattern="#{registrationForm.emailRegex}"/>
-                </h:inputText>
+                             validatorMessage="It isn't valid email" required="true" requiredMessage="Please enter your email"/>
 
                 <label>Password</label>
-                <h:inputSecret styleClass="w3-input w3-border"
+                <h:inputSecret id="password" styleClass="w3-input w3-border"
                                value="#{loginForm.password}"
-                               validatorMessage="Password should be 5 chars min">
-                    <f:validateLength minimum="5"/>
-                </h:inputSecret>
+                               validatorMessage="Password should be 5 chars min"
+                               required="true" requiredMessage="Please enter your password"/>
 
                 <div class="w3-margin-top">
                     <h:commandButton styleClass="w3-btn w3-green"
                                      value="Log in"
-                                     action="#{loginForm.login}">
+                                     action="#{loginForm.signIn}">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
                 </div>

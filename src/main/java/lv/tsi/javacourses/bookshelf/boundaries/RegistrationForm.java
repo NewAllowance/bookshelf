@@ -1,60 +1,72 @@
 package lv.tsi.javacourses.bookshelf.boundaries;
 
+import lv.tsi.javacourses.bookshelf.controls.EmailSender;
+import lv.tsi.javacourses.bookshelf.controls.UserControl;
+import lv.tsi.javacourses.bookshelf.controls.Util;
 import lv.tsi.javacourses.bookshelf.entities.User;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-@RequestScoped
+@ViewScoped
 @Named
-public class RegistrationForm {
+public class RegistrationForm implements Serializable {
     private final static String EMAIL_REGEX = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     private static Lock lock = new ReentrantLock();
     @PersistenceContext
     private EntityManager em;
 
+    @Inject
+    private UserControl userControl;
+    @Inject
+    private EmailSender emailSender;
+
     private String fullName;
     private String email;
     private String password1;
     private String password2;
+    private String confirmationCode;
+    private boolean awaitConfirmation = false;
 
     @Transactional
-    public String register() {
+    public void register() {
         if (!Objects.equals(password1, password2)) {
-            FacesContext.getCurrentInstance()
-                    .addMessage(null,
-                            new FacesMessage("Passwords should be the same"));
-            return null;
+            Util.addError("registration:password2", "Password doesn't match the confirm password");
+            return;
         }
 
-        Query query = em.createQuery("select u from User u where u.email = :email");
-        query.setParameter("email", email);
-        if (query.getResultList().size() > 0) {
-            FacesContext.getCurrentInstance()
-                    .addMessage(null,
-                            new FacesMessage("User with this email already registered"));
-            return null;
+        if (userControl.emailExists(email)) {
+            Util.addError("registration:email", "This email already exists");
+            return;
         }
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password1);
-        user.setFullName(fullName);
+        User u = userControl.createUser(email, fullName, password1);
+        String code = emailSender.sendConfirmationCode(email);
+        u.setConfirmationCode(code);
 
-        em.persist(user);
-
-        return "/registration-complete.xhtml?faces-redirect=true";
+        awaitConfirmation = true;
     }
 
+
+    @Transactional
+    public String confirm() {
+        User u = userControl.findUserByEmail(email, false);
+        if (u != null && Objects.equals(u.getConfirmationCode(), confirmationCode)) {
+            u.setConfirmed(true);
+            return "/sign-in.xhtml?faces-redirect=true";
+        } else {
+            Util.addError("registration:confirmationCode", "Incorrect confirmation code");
+            return null;
+        }
+    }
     public String getEmailRegex() {
         return EMAIL_REGEX;
     }
