@@ -18,7 +18,8 @@ public class User implements Serializable {
     @Column(name = "full_name")
     private String fullName;
     @ManyToMany
-    @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
     @Column(name = "confirmation_code")
     private String confirmationCode;

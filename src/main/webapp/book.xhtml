@@ -54,6 +54,16 @@
                             <th class="w3-hide-small">Description:</th>
                             <td>#{bookDetailsForm.book.description}</td>
                         </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h:form>
+                                    <h:messages/>
+                                    <h:commandButton value="Reserve" action="#{bookDetailsForm.reserve}">
+                                        <f:ajax execute="@form" render="@form"/>
+                                    </h:commandButton>
+                                </h:form>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
