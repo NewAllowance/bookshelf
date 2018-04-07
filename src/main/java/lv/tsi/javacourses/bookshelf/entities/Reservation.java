@@ -3,6 +3,7 @@ package lv.tsi.javacourses.bookshelf.entities;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "reservations")
 public class Reservation {
     @Id
     @GeneratedValue

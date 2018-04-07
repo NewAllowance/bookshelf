@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/template.xhtml">
+    <ui:define name="content">
+        <div class="w3-content">
+            <f:metadata>
+                <f:viewAction action="#{myBooksForm.prepareMyBooks}"/>
+            </f:metadata>
+
+            <div class="w3-panel">
+                <p class="w3-xlarge"><i class="fas fa-angle-right"></i> You are reading these books:</p>
+            </div>
+            <h:panelGroup rendered="#{empty myBooksForm.taken}">
+                <div class="w3-panel w3-light-grey">
+                    <p>Nothing to display here</p>
+                </div>
+            </h:panelGroup>
+            <h:dataTable value="#{myBooksForm.taken}" var="book" styleClass="w3-table w3-bordered w3-striped"
+                         rendered="#{not empty myBooksForm.taken}" headerClass="w3-green">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{book.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    #{book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Author</f:facet>
+                    #{book.author}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">ISBN</f:facet>
+                    #{book.isbn}
+                </h:column>
+            </h:dataTable>
+
+            <div class="w3-panel">
+                <p class="w3-xlarge"><i class="fas fa-angle-right"></i> You can take following books:</p>
+            </div>
+            <h:panelGroup rendered="#{empty myBooksForm.canTake}">
+                <div class="w3-panel w3-light-grey">
+                    <p>Nothing to display here</p>
+                </div>
+            </h:panelGroup>
+            <h:dataTable value="#{myBooksForm.canTake}" var="book" styleClass="w3-table w3-bordered w3-striped"
+                         rendered="#{not empty myBooksForm.canTake}" headerClass="w3-green">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{book.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    #{book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Author</f:facet>
+                    #{book.author}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">ISBN</f:facet>
+                    #{book.isbn}
+                </h:column>
+            </h:dataTable>
+
+            <div class="w3-panel">
+                <p class="w3-xlarge"><i class="fas fa-angle-right"></i> You are waiting for these books:</p>
+            </div>
+            <h:panelGroup rendered="#{empty myBooksForm.await}">
+                <div class="w3-panel w3-light-grey">
+                    <p>Nothing to display here</p>
+                </div>
+            </h:panelGroup>
+            <h:dataTable value="#{myBooksForm.await}" var="book" styleClass="w3-table w3-bordered w3-striped"
+                         rendered="#{not empty myBooksForm.await}" headerClass="w3-green">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{book.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    #{book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Author</f:facet>
+                    #{book.author}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">ISBN</f:facet>
+                    #{book.isbn}
+                </h:column>
+            </h:dataTable>
+
+            <div class="w3-panel">
+                <p class="w3-xlarge"><i class="fas fa-angle-right"></i> You have read:</p>
+            </div>
+            <h:panelGroup rendered="#{empty myBooksForm.read}">
+                <div class="w3-panel w3-light-grey">
+                    <p>Nothing to display here</p>
+                </div>
+            </h:panelGroup>
+            <h:dataTable value="#{myBooksForm.read}" var="book" styleClass="w3-table w3-bordered w3-striped"
+                         rendered="#{not empty myBooksForm.read}" headerClass="w3-green">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{book.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    #{book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Author</f:facet>
+                    #{book.author}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">ISBN</f:facet>
+                    #{book.isbn}
+                </h:column>
+            </h:dataTable>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
