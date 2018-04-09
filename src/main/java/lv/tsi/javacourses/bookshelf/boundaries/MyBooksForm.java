@@ -2,6 +2,7 @@ package lv.tsi.javacourses.bookshelf.boundaries;
 
 import lv.tsi.javacourses.bookshelf.entities.Book;
 import lv.tsi.javacourses.bookshelf.entities.Reservation;
+import lv.tsi.javacourses.bookshelf.entities.Status;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ViewScoped
 @Named
@@ -29,20 +31,13 @@ public class MyBooksForm implements Serializable {
 
 
     public void prepareMyBooks() {
-        canTake = em.createQuery(
-                "select mr.book from Reservation mr " +
-                        "where mr.user = :user " +
-                        "and mr.status = 'WAIT' " +
-                        "and mr.id in (" +
-                        "   select min(r.id) from Reservation r " +
-                        "   where r.book in (" +
-                        "       select ur.book from Reservation ur " +
-                        "       where ur.user = :user " +
-                        "       and (r.status = 'WAIT' or r.status = 'TAKEN')" +
-                        "   ) group by r.book" +
-                        ") order by mr.id")
+        canTake = em.createNamedQuery(Reservation.FIRST_IN_QUEUE, Reservation.class)
                 .setParameter("user", currentUser.getSignedInUser())
-                .getResultList();
+                .getResultList()
+                .stream()
+                .filter(r -> r.getStatus() == Status.WAIT)
+                .map(r -> r.getBook())
+                .collect(Collectors.toList());
 
         List<Reservation> myReservations = em.createQuery(
                 "select r from Reservation r " +

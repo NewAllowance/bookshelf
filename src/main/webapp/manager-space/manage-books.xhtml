@@ -27,20 +27,37 @@
                 <h:column>
                     <f:facet name="header">Options</f:facet>
                     <h:commandButton value="Open"
-                                     action="#{manageBooksForm.prepareBooks(usr)}">
+                                     action="#{manageBooksForm.prepareReservations(usr)}">
                         <f:ajax render="@form" execute="@form"/>
                     </h:commandButton>
                 </h:column>
             </h:dataTable>
 
-            <h:dataTable value="#{manageBooksForm.books}" var="bk">
+            <h:dataTable value="#{manageBooksForm.reservations}" var="res">
                 <h:column>
-                    <f:facet name="header">id</f:facet>
-                    #{bk.id}
+                    <f:facet name="header">ID</f:facet>
+                    #{res.book.id}
                 </h:column>
                 <h:column>
                     <f:facet name="header">title</f:facet>
-                    #{bk.title}
+                    #{res.book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">status</f:facet>
+                    #{res.status}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Operations</f:facet>
+                    <h:commandButton value="Release"
+                                     action="#{manageBooksForm.releaseBook(res)}"
+                                     rendered="#{res.status eq 'TAKEN'}">
+                        <f:ajax execute="@form" render="@form"/>
+                    </h:commandButton>
+                    <h:commandButton value="Give"
+                                     action="#{manageBooksForm.giveBook(res)}"
+                                     rendered="#{res.status eq 'WAIT'}">
+                        <f:ajax execute="@form" render="@form"/>
+                    </h:commandButton>
                 </h:column>
             </h:dataTable>
 

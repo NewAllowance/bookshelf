@@ -55,6 +55,10 @@
                         outcome="/admin-space/index.xhtml"
                         styleClass="w3-bar-item w3-button"
                         rendered="#{request.isUserInRole('admin')}"/>
+                <h:link value="Manage books"
+                        outcome="/manager-space/manage-books.xhtml"
+                        styleClass="w3-bar-item w3-button"
+                        rendered="#{request.isUserInRole('manager')}"/>
 
                 <h:link value="Sign in / Register"
                         outcome="/login.xhtml"
