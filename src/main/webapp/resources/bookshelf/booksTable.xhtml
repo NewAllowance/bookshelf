@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+<cc:interface>
+    <cc:attribute name="title" required="true"/>
+    <cc:attribute name="value" required="true" type="java.util.Collection"/>
+</cc:interface>
+<cc:implementation>
+    <div class="w3-panel">
+        <p class="w3-xlarge"><i class="fas fa-angle-right"></i> #{cc.attrs.title}:</p>
+    </div>
+    <h:panelGroup rendered="#{empty cc.attrs.value}">
+        <div class="w3-panel w3-light-grey">
+            <p>Nothing to display here</p>
+        </div>
+    </h:panelGroup>
+    <h:dataTable value="#{cc.attrs.value}" var="book" styleClass="w3-table w3-bordered w3-striped"
+                 rendered="#{not empty cc.attrs.value}" headerClass="w3-green">
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{book.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Title</f:facet>
+            #{book.title}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Author</f:facet>
+            #{book.author}
+        </h:column>
+        <h:column>
+            <f:facet name="header">ISBN</f:facet>
+            #{book.isbn}
+        </h:column>
+    </h:dataTable>
+</cc:implementation>
+</html>
