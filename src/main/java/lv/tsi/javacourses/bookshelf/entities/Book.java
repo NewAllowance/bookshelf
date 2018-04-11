@@ -20,6 +20,10 @@ public class Book implements Serializable {
     private int year;
     @Column(nullable = false)
     private String isbn;
+    @Lob
+    private byte[] image;
+    @Column
+    private String imageMimeType;
 
     public Long getId() {
         return id;
@@ -67,6 +71,23 @@ public class Book implements Serializable {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageMimeType() {
+        return imageMimeType;
+    }
+
+    public void setImageMimeType(String imageMimeType) {
+        this.imageMimeType = imageMimeType;
     }
 
     @Override

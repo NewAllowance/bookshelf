@@ -24,7 +24,14 @@
                 <ui:repeat value="#{bookSearchForm.searchResult}" var="book">
                     <div class="w3-col s12 m6 l3 w3-padding">
                         <div class="w3-card-4">
-                            <img src="http://via.placeholder.com/250/444/2f2/cover.png?text=#{book.title}" style="width: 100%"/>
+                            <h:panelGroup rendered="#{empty book.imageMimeType}">
+                                <img src="http://via.placeholder.com/350/444/2f2/cover.png?text=#{bookDetailsForm.book.title}"
+                                     style="width: 100%; max-width: 350px"/>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{not empty book.imageMimeType}">
+                                <img src="#{request.contextPath}/book-image?id=#{book.id}"
+                                     style="width: 100%; max-width: 350px;"/>
+                            </h:panelGroup>
                             <div class="w3-container">
                                 <h4 style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap">
                                     <b>

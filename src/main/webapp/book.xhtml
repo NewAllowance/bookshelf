@@ -15,7 +15,14 @@
             <h1 class="w3-xxlarge w3-center">#{bookDetailsForm.book.title}</h1>
             <div class="w3-row-padding">
                 <div class="w3-col s12 m12 l6">
-                    <img src="http://via.placeholder.com/350/444/2f2/cover.png?text=#{bookDetailsForm.book.title}" style="width: 100%; max-width: 500px"/>
+                    <h:panelGroup rendered="#{empty bookDetailsForm.book.imageMimeType}">
+                        <img src="http://via.placeholder.com/350/444/2f2/cover.png?text=#{bookDetailsForm.book.title}"
+                             style="width: 100%; max-width: 500px"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{not empty bookDetailsForm.book.imageMimeType}">
+                        <img src="#{request.contextPath}/book-image?id=#{bookDetailsForm.book.id}"
+                             style="width: 100%; max-width: 500px"/>
+                    </h:panelGroup>
                 </div>
                 <div class="w3-col s12 m12 l6">
                     <table class="w3-table">
@@ -61,6 +68,10 @@
                                     <h:commandButton value="Reserve" action="#{bookDetailsForm.reserve}">
                                         <f:ajax execute="@form" render="@form"/>
                                     </h:commandButton>
+                                    <h:link value="Edit" outcome="/manager-space/edit-book.xhtml"
+                                            rendered="#{request.isUserInRole('manager')}">
+                                        <f:param name="id" value="#{bookDetailsForm.book.id}"/>
+                                    </h:link>
                                 </h:form>
                             </td>
                         </tr>
