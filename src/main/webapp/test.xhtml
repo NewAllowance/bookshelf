@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="template.xhtml">
+    <f:metadata>
+        <f:viewAction action="#{testBean.loadBooks}"/>
+    </f:metadata>
+<ui:define name="content">
+
+<h:form>
+        <h:selectOneMenu value="#{testBean.bookId}">
+            <f:selectItem value="#{testBean.books}" var="b" itemLabel="#{b/title}" itemValue="#{b.id}"/>
+        </h:selectOneMenu>
+    <h:commandButton value="Process" action="#{testBean.processBook}"/>
+</h:form>
+
+    <h:form>
+        <h:selectOneMenu value="#{testBean.selectedYear}"/>
+        <f:selectItems value="#{testBean.allYears}"/>
+        <h:commandButton value="Process" action="#{testBean.processBookYear}"/>
+    </h:form>
+
+</ui:define>
+</ui:composition>
+</html>

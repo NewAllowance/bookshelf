@@ -103,4 +103,16 @@ public class Book implements Serializable {
 
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", year=" + year +
+                ", isbn='" + isbn + '\'' +
+                ", imageMimeType='" + imageMimeType + '\'' +
+                '}';
+    }
 }
